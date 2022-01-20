@@ -1,0 +1,42 @@
+[
+  {
+    "courseId": "381864746832",
+    "id": "447941077640",
+    "title": "\u30101st term Exam\u3011Corrections",
+    "state": "PUBLISHED",
+    "alternateLink": "https://classroom.google.com/c/MzgxODY0NzQ2ODMy/a/NDQ3OTQxMDc3NjQw/details",
+    "creationTime": "2022-01-15T06:05:39.125Z",
+    "updateTime": "2022-01-15T06:05:38.601Z",
+    "dueDate": { "year": 2022, "month": 1, "day": 24 },
+    "dueTime": { "hours": 15, "minutes": 59 },
+    "workType": "ASSIGNMENT",
+    "submissionModificationMode": "MODIFIABLE_UNTIL_TURNED_IN",
+    "creatorUserId": "113729535526631576873"
+  },
+  {
+    "courseId": "383314835877",
+    "id": "387861255478",
+    "title": "\u65b0\u805e\u532f\u5831",
+    "description": "\u5f62\u5f0f\n\u2b25 \u8f2a\u6d41\u532f\u5831\n\u2b25 \u4ee5\u500b\u4eba\u5f62\u5f0f\u9032\u884c\n\u2b25 \u6bcf\u4eba\u6700\u591a\u4e09\u5206\u9418\n\u2b25 \u8a08\u7b97\u5168\u5e74\u5b78\u7fd2\u614b\u5ea6\u5206\n\n\u2b25 \u7121\u6cd5\u5982\u671f\u532f\u5831\u800c\u6c92\u6709\u5408\u7406\u89e3\u91cb\uff0c\u6703\u6263\u6e1b20%\u7684\u5206\u6578\u3002\n\u2b25 \u518d\u6b21\u5ef6\u9072\u532f\u5831\u8005\uff0c\u6703\u88ab\u6263\u81f3\u96f6\u5206\u3002\n\u2b25 \u672a\u6709\u9810\u5099\u7c21\u5831\uff0c\u6703\u88ab\u626320%\u7684\u5206\u6578\u3002\n\n\n\u532f\u5831\u8981\u6c42\n\u2b25\u9806\u6b21\u5e8f\u88fd\u4f5c\u7c21\u5831\uff08\u7d043-6\u9801\u70ba\u4f73\uff09(\u63d2\u5165\u65b0\u7c21\u5831\u9801\uff0c\u4e0d\u8981\u522a\u8d70\u540c\u5b78\u7684\u7c21\u5831\u9801\uff09\n\u3000\u9996\u9801\u8a3b\u660e\u5b78\u751f\u540d\u7a31\u3001\u73ed\u5225\u53ca\u5b78\u865f\n\u2b25\u5167\u5bb9\u5305\u62ec\uff1a\n\u3000(1) \u65b0\u805e\u6a19\u984c\u3001\u8cc7\u6599\u4f86\u6e90\uff08\u51fa\u8655\u53ca\u65e5\u671f\uff09\n\u00a0 \u00a0 (2) \u5167\u5bb9\u64ae\u8981\uff08\u6574\u7406\u8cc7\u6599\uff0c\u800c\u975e\u5168\u7bc7\u5f15\u9304\uff09\n\u00a0 \u00a0 (3) \u9ede\u5217\u500b\u4eba\u770b\u6cd5 ( \u5982\u5206\u6790\u4e8b\u4ef6\u6210\u56e0\u3001\u5e36\u4f86\u7684\u5f71\u97ff\uff1b\u8a55\u8ad6\u6709\u95dc\u4eba\u7269\u7684\u884c\u70ba\uff1b\u5206\u6790\u653f\u7b56\u7684\u512a\u9ede\u53ca\u7f3a\u9ede\uff1b\u76f8\u95dc\u5efa\u8b70\u7b49\uff09",
+    "materials": [
+      {
+        "driveFile": {
+          "driveFile": {
+            "id": "1zusaBZZP65kNwWSZd-gpJrHlTH96BQAReOo8wL246ww",
+            "title": "3C \u65b0\u805e\u532f\u5831",
+            "alternateLink": "https://docs.google.com/presentation/d/1zusaBZZP65kNwWSZd-gpJrHlTH96BQAReOo8wL246ww/edit?usp=drive_web",
+            "thumbnailUrl": "https://lh3.google.com/CMN5aV1grSfvGG9mnRJL2_A6GVEiPsip1dc5MrvaSlaW0VjFD1vNzLf8Zmb3f6gCASdpFN9A7iNmY_vsdk0QyG7TUJVrG7oUG4l2=s200"
+          },
+          "shareMode": "EDIT"
+        }
+      }
+    ],
+    "state": "PUBLISHED",
+    "alternateLink": "https://classroom.google.com/c/MzgzMzE0ODM1ODc3/a/Mzg3ODYxMjU1NDc4/details",
+    "creationTime": "2021-09-02T03:22:18.142Z",
+    "updateTime": "2021-09-02T03:22:59.022Z",
+    "workType": "ASSIGNMENT",
+    "submissionModificationMode": "MODIFIABLE_UNTIL_TURNED_IN",
+    "creatorUserId": "101403441480699638297"
+  }
+]
