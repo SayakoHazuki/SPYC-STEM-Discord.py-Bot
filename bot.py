@@ -29,7 +29,8 @@ SCOPES = ['https://www.googleapis.com/auth/classroom.courses.readonly',
           'https://www.googleapis.com/auth/classroom.student-submissions.me.readonly']
 
 
-def main():
+def getAssignmentList():
+    # Authorization (Google API)
     creds = None
 
     if os.path.exists('token.json'):
@@ -46,10 +47,11 @@ def main():
         with open('token.json', 'w') as token:
             token.write(creds.to_json())
 
+    # Run if authorized:
     try:
         service = build('classroom', 'v1', credentials=creds)
 
-        # Call the Classroom API
+        # Get courses list
         results = service.courses().list(
             pageSize=35, courseStates=['ACTIVE']).execute()
         courses = results.get('courses', [])
@@ -57,49 +59,49 @@ def main():
         if not courses:
             print('No courses found.')
             return
-        # Prints the names of the first 10 courses.
-        print('Courses:')
 
-        assignmentList = []
+        courseWorkList = []
         for course in courses:
             assignments = service.courses().courseWork().list(
                 courseId=course['id'], orderBy='dueDate', pageSize=5).execute()
-            assignmentList.append(assignments)
-            print(course['name'])
+            courseWorkList.append(assignments)
+            print('Retrieved assignment list for {}'.format(course['name']))
 
-        lf = []
+        assignmentList = []
 
-        for courseWork in assignmentList:
+        for courseWork in courseWorkList:
             if courseWork:
                 for work in courseWork["courseWork"]:
-                    lf.append(work)
+                    assignmentList.append(work)
 
-        l2 = sorted(lf,
+        sortedAssignments = sorted(lf,
                     key=lambda d: '{}{}{}{}{}'.format(d['dueDate']['year'],
                                                       f"{d['dueDate']['month']:02d}",
                                                       f"{d['dueDate']['day']:02d}",
                                                       f"{d['dueTime']['hours'] if 'hours' in d['dueTime'] else 23:02d}",
                                                       f"{d['dueTime']['minutes'] if 'minutes' in d['dueTime'] else 59:02d}") if 'dueDate' in d else '999999999999', reverse=False)
 
-        l3 = []
+        mySubmissions = []
 
         print('processing assignments:')
-        for assignment in l2:
+        for assignment in sortedAssignments:
             assignmentState = service.courses().courseWork().studentSubmissions().list(
                 courseId=assignment['courseId'], courseWorkId=assignment['id'], userId='me').execute()
-            l3.append(assignmentState)
+            mySubmissions.append(assignmentState)
             print(assignment["title"])
 
-        for assignment in l3:
+        for assignment in mySubmissions:
             if (assignment["studentSubmissions"][0]["state"] == 'RETURNED') or (assignment["studentSubmissions"][0]["state"]) == 'TURNED_IN':
                 assignmentId = assignment["studentSubmissions"][0]["courseWorkId"]
-                l2 = [d for d in l2 if d.get('id') != assignmentId]
-        l42 = []
-        for i in l2:
-            l42.append(json.dumps(i))
+                sortedAssignments = [d for d in l2 if d.get('id') != assignmentId]
+
+        # converts result to string and save to l4.json
+        resultsStrArr = []
+        for i in sortedAssignments:
+            resultsStrArr.append(json.dumps(i))
 
         with open('l4.json', 'w') as l4Json:
-            l4Json.write('[{}]'.format(','.join(l42)))
+            l4Json.write('[{}]'.format(','.join(resultsStrArr)))
 
     except HttpError as error:
         print('An error occurred: %s' % error)
