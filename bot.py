@@ -15,6 +15,9 @@ import json
 client = discord.Client()
 bot = commands.Bot(command_prefix='!')
 
+@client.event
+async def on_ready():
+    print('Logged in as {0.user}'.format(client))
 
 @bot.command()
 async def test(ctx):
@@ -101,6 +104,11 @@ def main():
     except HttpError as error:
         print('An error occurred: %s' % error)
 
+f = open('secrets.json')
+ 
+# returns JSON object as
+# a dictionary
+secrets = json.load(f)
 
-# client.run('OTMzNjEwODYwMDEyNzkzODc3.YekC3g.lMl9H_W0HXyIgcae056HSJlTVlM')
-main()
+client.run(secrets["token"])
+
