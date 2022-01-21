@@ -2,7 +2,6 @@
 
 import json
 import os.path
-from sqlite3 import Date
 import discord
 from discord.ext import commands
 import time
@@ -14,12 +13,15 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from google.oauth2.credentials import Credentials
 from google.auth.transport.requests import Request
 
+
 # ============ Bot Config ============
 
-intents = discord.Intents().all()
-bot = commands.Bot(command_prefix='$', intents=intents)
+intents = discord.Intents().all()  # Specify the bot intents
+bot = commands.Bot(command_prefix='$',
+                   intents=intents)  # Create the bot client
 creds = None  # Will be used to store Google API Credentials
 service = None  # Will be used to store Google Classroom API Service
+
 
 # ===== Google API Authorization =====
 
@@ -30,7 +32,7 @@ SCOPES = ['https://www.googleapis.com/auth/classroom.courses.readonly',
 
 
 async def authorizeGoogleAPI():  # Authorize Function
-    global creds, service
+    global creds, service  # Get the variables "creds" and "service"
 
     # If token.json exists, read the token
     if os.path.exists('token.json'):
@@ -56,11 +58,15 @@ async def authorizeGoogleAPI():  # Authorize Function
     return
 
 
+# =========== Bot Events ===========
+
 @bot.event  # On bot ready
 async def on_ready():
     print('Logged in as {0.user}'.format(bot))
     await authorizeGoogleAPI()
 
+
+# ========== Bot Commands ==========
 
 @bot.command()  # Testing command
 async def test(ctx):
@@ -69,7 +75,7 @@ async def test(ctx):
 
 @bot.command()  # Assignments command
 async def assignments(ctx):
-    # Create Embed
+    # Create Discord Message Embed
     resultEmbed = discord.Embed(
         title="To-do List", description="Assignments that haven't been turned in yet", color=0xF7DFA5)
 
@@ -94,8 +100,9 @@ async def assignments(ctx):
     await ctx.send(embed=resultEmbed)
 
 
+# ===== Get Assignment List Function =====
+
 async def getAssignmentList():
-    # ======== Run if authorized: ========
     try:
         # Get active courses list
         results = service.courses().list(
@@ -172,8 +179,10 @@ async def getAssignmentList():
 
     # on HttpError
     except HttpError as error:
-        print('An error occurred: %s' % error)
+        print('An error occurred: {}'.format(error))
 
+
+# ========= Run(start) the bot =========
 
 # load secrets (json)
 f = open('secrets.json')
