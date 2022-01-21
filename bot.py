@@ -3,8 +3,11 @@
 from __future__ import print_function
 import json
 import os.path
+from sqlite3 import Date
 import discord
 from discord.ext import commands
+import time
+import datetime
 
 from googleapiclient.errors import HttpError
 from googleapiclient.discovery import build
@@ -12,31 +15,16 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from google.oauth2.credentials import Credentials
 from google.auth.transport.requests import Request
 
-client = discord.Client()
-bot = commands.Bot(command_prefix='!')
+intents = discord.Intents().all()
+bot = commands.Bot(command_prefix='$',intents=intents)
+creds = None
+service = None
 
 
-@client.event
-# on bot ready
-async def on_ready():
-    print('Logged in as {0.user}'.format(client))
+async def authorizeGoogleAPI():
+    global creds, service
 
-
-@bot.command()
-# on test command
-async def test(ctx):
-    await ctx.send('test')
-
-# Google API Scopes
-SCOPES = ['https://www.googleapis.com/auth/classroom.courses.readonly',
-          'https://www.googleapis.com/auth/classroom.course-work.readonly',
-          'https://www.googleapis.com/auth/classroom.student-submissions.me.readonly']
-
-
-def getAssignmentList():
-    # ======== Authorization (Google API) ========
-    creds = None
-
+    # If token.json exists, read the token
     if os.path.exists('token.json'):
         creds = Credentials.from_authorized_user_file('token.json', SCOPES)
 
@@ -55,11 +43,56 @@ def getAssignmentList():
         with open('token.json', 'w') as token:
             token.write(creds.to_json())
 
+    service = build('classroom', 'v1', credentials=creds)
+    print('[Google Classroom API] Authorized')
+    return
+
+
+@bot.event
+# on bot ready
+async def on_ready():
+    print('Logged in as {0.user}'.format(bot))
+    await authorizeGoogleAPI()
+
+
+@bot.command()
+async def test(ctx):
+    await ctx.send('test')
+
+
+@bot.command()
+# on testWork command
+async def testWork(ctx):
+    resultEmbed = discord.Embed(
+        title="To-do", description="Assignments that haven't been turned in yet", color=0xFF5733)
+    assignments = await getAssignmentList()
+    for assignment in assignments:
+        dueDatetime = ''
+        if 'dueDate' in assignment:
+            due = {
+                "y": assignment["dueDate"]["year"],
+                "m": assignment["dueDate"]["month"],
+                "d": assignment["dueDate"]["day"],
+                "h": assignment["dueTime"]["hours"] if 'dueTime' in assignment else 23,
+                "min": assignment["dueTime"]["minutes"] if 'dueTime' in assignment else 59,
+            }
+            dueDatetime = '<t:{}:f>'.format(int(time.mktime(datetime.datetime(
+                due["y"], due["m"], due["d"], due["h"], due["min"]).timetuple())))
+        else:
+            dueDatetime = 'No Due Date'
+        resultEmbed.add_field(name=assignment["title"], value='Due: {}'.format(dueDatetime), inline=False)
+    await ctx.send(embed=resultEmbed)
+
+
+# Google API Scopes
+SCOPES = ['https://www.googleapis.com/auth/classroom.courses.readonly',
+          'https://www.googleapis.com/auth/classroom.course-work.readonly',
+          'https://www.googleapis.com/auth/classroom.student-submissions.me.readonly']
+
+
+async def getAssignmentList():
     # ======== Run if authorized: ========
     try:
-        # Build the Classroom Service
-        service = build('classroom', 'v1', credentials=creds)
-
         # Get active courses list
         results = service.courses().list(
             pageSize=35, courseStates=['ACTIVE']).execute()
@@ -116,7 +149,7 @@ def getAssignmentList():
         # Now mySubmissions[] contains studentSubmissions for all the assignments
         #   (For studentSubmissions refer to the docs at https://developers.google.com/classroom/reference/rest/v1/courses.courseWork.studentSubmissions?hl=en#StudentSubmission)
 
-        # remove all the submitted work from sortedAssignments[] 
+        # remove all the submitted work from sortedAssignments[]
         for assignment in mySubmissions:
             if (assignment["studentSubmissions"][0]["state"] == 'RETURNED') or (assignment["studentSubmissions"][0]["state"]) == 'TURNED_IN':
                 assignmentId = assignment["studentSubmissions"][0]["courseWorkId"]
@@ -131,6 +164,8 @@ def getAssignmentList():
         with open('l4.json', 'w') as l4Json:
             l4Json.write('[{}]'.format(','.join(resultsStrArr)))
 
+        return sortedAssignments
+
     # on HttpError
     except HttpError as error:
         print('An error occurred: %s' % error)
@@ -141,6 +176,4 @@ f = open('secrets.json')
 secrets = json.load(f)
 
 # run the bot
-# client.run(secrets["token"])
-
-getAssignmentList()
+bot.run(secrets["token"])
