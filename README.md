@@ -23,9 +23,11 @@ the `getAssignmentList()` function in bot.py will retrieve all unsubmitted assig
 Google Cloud Platform
 https://console.cloud.google.com/
 
-Credentials > OAuth2.0 Client ID
-(**IMPORTANT: Use 18+ Edu Acc / 13+ Pers Acc**)
-
-In API:OAuthConsentScrn > Test User > Add pycXXXXX@school.pyc.edu.hk
-
-Run once, get redirect uri, set redirect uri, use school acc to log in
+1. Create a new project for 'web application'
+2. In the Libraries tab (under API & Services) search for 'Google Classroom API' and enable it
+3. In the Credentials tab (just below the Libraries tab), press 'Create Credentials' and choose OAuth client ID
+4. Set application type to 'web application', under the 'Authorized redirect URIs field add uri 'https://localhost:59821/
+5. Press Create and wait for a pop-up menu which says 'OAuth client created'. In the menu press 'DOWNLOAD JSON'
+6. Move the downloaded file to your working directory and rename it as `credentials.json`
+7. run `py .\bot.py` in command prompt/terminal
+8. A browser window will pop up, sign in and authorize using the school account (pyc19xxx@school.pyc.edu.hk)
