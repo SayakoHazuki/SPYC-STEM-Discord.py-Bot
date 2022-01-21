@@ -1,4 +1,4 @@
-# ============ imports ============
+# ============= imports =============
 
 import json
 import os.path
@@ -75,7 +75,7 @@ async def assignments(ctx):
 
     # Get Assignment List and Add Fields
     assignments = await getAssignmentList()
-    for assignment, i in assignments:
+    for assignment, i in assignments.items():
         # Break if at Maximum Fields Number
         if i == 24:
             break
