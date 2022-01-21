@@ -11,7 +11,7 @@ the `getAssignmentList()` function in bot.py will retrieve all unsubmitted assig
 **It may take around 1 minute to retrieve the list of unsubmitted assignments** (currently trying to reduce the time)
 
 #### Set-up
-- requires: Google API OAuth2 Token (stored as `./.json`)
+- requires: Google API OAuth2 Token (stored as `./token.json`)
 - discord bot (token stored in `./secrets.json`)
 
 ```js
