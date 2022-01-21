@@ -44,3 +44,13 @@ Get assignment lists
 
 ### Creating a bot 
 1. Go to [Discord Developer Portal](https://discord.com/developers/applications)
+2. Create an application
+3. In the bot tab, create a bot
+4. In the URL Generator under OAuth2 Category in the sidebar, generate an URL and copy it
+    - with scopes "Bot", "Messages.read" and "applications.commands"
+    - with bot permission "Administrator"
+5. In the bot tab, under Intents section, enable:
+    - PRESENCE INTENT
+    - SERVER MEMBERS INTENT
+    - MESSAGE CONTENT INTENT
+6. Go to the link obtained in step 4, complete the authorization to add the bot
