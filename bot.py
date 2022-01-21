@@ -1,13 +1,12 @@
-# imports
+# ============ imports ============
 
-from __future__ import print_function
 import json
 import os.path
 from sqlite3 import Date
 import discord
 from discord.ext import commands
 import time
-import datetime
+from datetime import datetime, timezone
 
 from googleapiclient.errors import HttpError
 from googleapiclient.discovery import build
@@ -15,13 +14,22 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from google.oauth2.credentials import Credentials
 from google.auth.transport.requests import Request
 
+# ============ Bot Config ============
+
 intents = discord.Intents().all()
-bot = commands.Bot(command_prefix='$',intents=intents)
-creds = None
-service = None
+bot = commands.Bot(command_prefix='$', intents=intents)
+creds = None  # Will be used to store Google API Credentials
+service = None  # Will be used to store Google Classroom API Service
+
+# ===== Google API Authorization =====
+
+# Google API Scopes
+SCOPES = ['https://www.googleapis.com/auth/classroom.courses.readonly',
+          'https://www.googleapis.com/auth/classroom.course-work.readonly',
+          'https://www.googleapis.com/auth/classroom.student-submissions.me.readonly']
 
 
-async def authorizeGoogleAPI():
+async def authorizeGoogleAPI():  # Authorize Function
     global creds, service
 
     # If token.json exists, read the token
@@ -48,25 +56,29 @@ async def authorizeGoogleAPI():
     return
 
 
-@bot.event
-# on bot ready
+@bot.event  # On bot ready
 async def on_ready():
     print('Logged in as {0.user}'.format(bot))
     await authorizeGoogleAPI()
 
 
-@bot.command()
+@bot.command()  # Testing command
 async def test(ctx):
     await ctx.send('test')
 
 
-@bot.command()
-# on testWork command
-async def testWork(ctx):
+@bot.command()  # Assignments command
+async def assignments(ctx):
+    # Create Embed
     resultEmbed = discord.Embed(
-        title="To-do", description="Assignments that haven't been turned in yet", color=0xFF5733)
+        title="To-do List", description="Assignments that haven't been turned in yet", color=0xF7DFA5)
+
+    # Get Assignment List and Add Fields
     assignments = await getAssignmentList()
-    for assignment in assignments:
+    for assignment, i in assignments:
+        # Break if at Maximum Fields Number
+        if i == 24:
+            break
         dueDatetime = ''
         if 'dueDate' in assignment:
             due = {
@@ -76,18 +88,13 @@ async def testWork(ctx):
                 "h": assignment["dueTime"]["hours"] if 'dueTime' in assignment else 23,
                 "min": assignment["dueTime"]["minutes"] if 'dueTime' in assignment else 59,
             }
-            dueDatetime = '<t:{}:f>'.format(int(time.mktime(datetime.datetime(
-                due["y"], due["m"], due["d"], due["h"], due["min"]).timetuple())))
+            dueDatetime = '<t:{}:f>'.format(int(time.mktime(datetime(
+                due["y"], due["m"], due["d"], due["h"], due["min"], 0, 0, timezone.utc).timetuple())))
         else:
             dueDatetime = 'No Due Date'
-        resultEmbed.add_field(name=assignment["title"], value='Due: {}'.format(dueDatetime), inline=False)
+        resultEmbed.add_field(
+            name=assignment["title"], value='Due: {}'.format(dueDatetime), inline=False)
     await ctx.send(embed=resultEmbed)
-
-
-# Google API Scopes
-SCOPES = ['https://www.googleapis.com/auth/classroom.courses.readonly',
-          'https://www.googleapis.com/auth/classroom.course-work.readonly',
-          'https://www.googleapis.com/auth/classroom.student-submissions.me.readonly']
 
 
 async def getAssignmentList():

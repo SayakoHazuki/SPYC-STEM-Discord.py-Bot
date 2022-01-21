@@ -1,16 +1,27 @@
-**INCOMPLETED**
+# Google Classroom Discord Bot
+**(Working in progress)**
 
-##### Current progress:
+## Current progress:
 - [x] function to retrieve to-do assignments
-- [ ] bot command to send the assignment list
+- [x] bot command to send the assignment list
+- [ ] improvements on the speed of the assignments command
 - [ ] bot command to get the timetable
 - [ ] ...
 
-the `getAssignmentList()` function in bot.py will retrieve all unsubmitted assignments from Google Classroom and saves to l4.json
+## Commands:
+(prefix:`$`)
 
-**It may take around 1 minute to retrieve the list of unsubmitted assignments** (currently trying to reduce the time)
+`test`
 
-#### Set-up
+The bot will reply with 'test'.
+For testing purposes.
+
+`assignments`
+
+Get assignment lists
+*Takes around 1 minute to run*
+
+## Set-up
 - requires: Google API OAuth2 Token (stored as `./credentials.json`)
 - discord bot (token stored in `./secrets.json`)
 
@@ -19,15 +30,14 @@ the `getAssignmentList()` function in bot.py will retrieve all unsubmitted assig
 {"token":"yourTokenHere"}
 ```
 
-##### To get google api credentials:
-Google Cloud Platform
-https://console.cloud.google.com/
-
-1. Create a new project for 'web application'
-2. In the Libraries tab (under API & Services) search for 'Google Classroom API' and enable it
-3. In the Credentials tab (just below the Libraries tab), press 'Create Credentials' and choose OAuth client ID
-4. Set application type to 'web application', under the 'Authorized redirect URIs field add uri 'https://localhost:59821/
-5. Press Create and wait for a pop-up menu which says 'OAuth client created'. In the menu press 'DOWNLOAD JSON'
-6. Move the downloaded file to your working directory and rename it as `credentials.json`
-7. run `py .\bot.py` in command prompt/terminal
-8. A browser window will pop up, sign in and authorize using the school account (pyc19xxx@school.pyc.edu.hk)
+### To get google api credentials:
+1. Visit [Google Cloud Platform](https://console.cloud.google.com/) and sign in using **your personal account (not your school account)**
+    - Only education accounts aged 18 or above / perseonal accounts aged 13 or above can access to this service
+2. Create a new project for 'web application'
+3. In the Libraries tab (under API & Services) search for 'Google Classroom API' and enable it
+4. In the Credentials tab (just below the Libraries tab), press 'Create Credentials' and choose OAuth client ID
+5. Set application type to 'web application', under the 'Authorized redirect URIs field add uri 'https:/6localhost:59821/
+6. Press Create and wait for a pop-up menu which says 'OAuth client created'. In the menu press 'DOWNLOAD JSON'
+7. Move the downloaded file to your working directory and rename it as `credentials.json`
+8. run `py .\bot.py` in command prompt/terminal
+9. A browser window will pop up, sign in and authorize using the school account (pyc19xxx@school.pyc.edu.hk)
