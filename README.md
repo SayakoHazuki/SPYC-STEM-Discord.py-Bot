@@ -9,7 +9,7 @@
 - [ ] ...
 
 ## Commands:
-(prefix:`$`)
+( Bot prefix: `$` )
 
 `test`
 
@@ -41,3 +41,6 @@ Get assignment lists
 7. Move the downloaded file to your working directory and rename it as `credentials.json`
 8. run `py .\bot.py` in command prompt/terminal
 9. A browser window will pop up, sign in and authorize using the school account (pyc19xxx@school.pyc.edu.hk)
+
+### Creating a bot 
+1. Go to [Discord Developer Portal](https://discord.com/developers/applications)
