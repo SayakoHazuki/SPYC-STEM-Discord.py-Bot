@@ -1,5 +1,6 @@
 # Explanation of the code
 **INCOMPLETED**
+
 **TO BE UPDATED**
 
 This file contains a line-by-line explanation of bot.py.
