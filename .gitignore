@@ -2,6 +2,7 @@ credentials.json
 secrets.json
 savedAssignments.json
 token.json
+timetable.json
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
