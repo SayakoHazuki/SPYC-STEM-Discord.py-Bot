@@ -4,7 +4,8 @@
 ## Current progress:
 - [x] function to retrieve to-do assignments
 - [x] bot command to send the assignment list
-- [ ] improvements on the speed of the assignments command
+- [x] improvements on the speed of the assignments command
+- [x] function to retrieve timetable data
 - [ ] bot command to get the timetable
 - [ ] ...
 
