@@ -102,7 +102,7 @@ async def fetchAssignments(service):
             resultsStrArr.append(json.dumps(i))
 
         with open('savedAssignments.json', 'w') as l4Json:
-            l4Json.write('[{}]'.format(','.join(resultsStrArr)))
+            l4Json.write('[\n\t{}\n]'.format(',\n\t'.join(resultsStrArr)))
 
         print(
             'Finished getting assignments, assignment list saved to savedAssignments.json')

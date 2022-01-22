@@ -4,7 +4,6 @@ import json
 import os.path
 import discord
 from discord.ext import commands, tasks
-import asyncio
 
 from classroom import authAndGetService, fetchAssignments, timestampFromDue
 
@@ -36,7 +35,7 @@ async def on_ready():
 async def assignments(ctx):
     # Create Discord Message Embed
     resultEmbed = discord.Embed(
-        title="To-do List", description="Assignments that haven't been turned in yet", color=0xF7DFA5)
+        title="未繳交的作業", description="\t", color=0xF7DFA5)
 
     assignments = []
     if os.path.exists('savedAssignments.json'):
@@ -44,7 +43,7 @@ async def assignments(ctx):
             assignments = json.load(savedAssignments)
     # Get Assignment List and Add Fields
     else:
-        ctx.send('This seems to be the first time for the bot to request data from the Google Classroom API. Please wait for about 2 minutes and run this command again.')
+        ctx.send('初次獲取資料需時約2分鐘, 請稍後重新使用指令')
 
     if assignments == 'No courses found':
         return ctx.send('No courses found')
@@ -57,7 +56,7 @@ async def assignments(ctx):
         else:
             dueDatetime = 'No Due Date'
         resultEmbed.add_field(
-            name=assignment["title"], value='Due: {}'.format(dueDatetime), inline=False)
+            name=assignment["title"], value='截止時間: {}\n[開啟作業]({})'.format(dueDatetime, assignment["alternateLink"]), inline=False)
     await ctx.send(embed=resultEmbed)
 
 
