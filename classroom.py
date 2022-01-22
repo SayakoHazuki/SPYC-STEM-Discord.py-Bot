@@ -11,6 +11,19 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from google.oauth2.credentials import Credentials
 from google.auth.transport.requests import Request
 
+# Move Function to thread so that it wont block other scripts
+
+import functools
+import typing
+import asyncio
+
+
+def to_thread(func: typing.Callable) -> typing.Coroutine:
+    @functools.wraps(func)
+    async def wrapper(*args, **kwargs):
+        return await asyncio.to_thread(func, *args, **kwargs)
+    return wrapper
+
 # ===== Google API Authorization =====
 
 
@@ -47,7 +60,8 @@ async def authAndGetService():
     return service
 
 
-async def fetchAssignments(service):
+@to_thread
+def fetchAssignments(service):
     try:
         print('Getting assignments from Google Classroom API...')
         # Get active courses list
