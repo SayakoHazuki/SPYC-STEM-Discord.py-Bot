@@ -72,7 +72,10 @@ async def assignments(ctx):
 
 
 @bot.command()
-async def timetable(ctx, arg1, arg2):
+async def timetable(ctx, arg1 = 'None', arg2 = 'None'):
+    if (arg1 == 'None' and arg2 == 'None') :
+        return await ctx.send('請輸入班別以及Day')
+    
     param = {'class_': arg1, 'day': arg2}
     lessons = getLessonList(param['class_'], param['day'])
 
