@@ -12,10 +12,10 @@
 ## Commands:
 ( Bot prefix: `$` )
 
-`test`
-
-The bot will reply with 'test'.
-For testing purposes.
+`timetable <Class> <Day>`
+(param) Class: Your class (e.g. 1A)
+(param) Day: Day of cycle (e.g. A)
+The bot will reply with the timetable list.
 
 `assignments`
 
