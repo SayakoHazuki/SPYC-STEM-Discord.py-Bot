@@ -2,11 +2,13 @@
 
 import json
 import os.path
+from sqlite3 import Timestamp
+from webbrowser import get
 import discord
 from discord.ext import commands, tasks
 
 from classroom import authAndGetService, fetchAssignments, timestampFromDue
-from timetable import fetchAPI, getLessonList
+from timetable import getLessonList
 
 import logging
 
@@ -43,8 +45,7 @@ async def on_ready():
 
 @bot.command()  # Assignments command
 async def assignments(ctx):
-    # Create Discord Message Embed
-    resultEmbed = discord.Embed(
+    assignmentsEmbed = discord.Embed(
         title="未繳交的作業", description="\t", color=0xF7DFA5)
 
     assignments = []
@@ -65,10 +66,36 @@ async def assignments(ctx):
             dueDatetime = timestampFromDue(assignment)
         else:
             dueDatetime = 'No Due Date'
-        resultEmbed.add_field(
+        assignmentsEmbed.add_field(
             name=assignment["title"], value='截止時間: {}\n[開啟作業]({})'.format(dueDatetime, assignment["alternateLink"]), inline=False)
-    await ctx.send(embed=resultEmbed)
+    await ctx.send(embed=assignmentsEmbed)
 
+
+@bot.command()
+async def timetable(ctx, arg1, arg2):
+    param = {'class_': arg1, 'day': arg2}
+    lessons = getLessonList(param['class_'], param['day'])
+
+    if lessons[0] == None:
+        return ctx.send('ValueError : {}'.format(lessons[1]))
+
+    print(lessons)
+    embedFields = []
+    i = 0
+
+    for lesson in lessons:
+        embedFields.append({'name': '第 {} 節'.format(
+            i+1), 'value': '{}\n'.format(lesson), 'inline': False})
+        i += 1
+
+    timetableEmbed = discord.Embed(
+        title='{class_}班 Day {day} 時間表'.format(**param)
+    )
+
+    for field in embedFields:
+        timetableEmbed.add_field(**field)
+
+    await ctx.send(embed=timetableEmbed)
 
 # ========= Run(start) the bot =========
 

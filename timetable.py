@@ -1,3 +1,4 @@
+from msilib.schema import Error
 import urllib.request
 import json
 import ssl
@@ -35,17 +36,21 @@ def getLessonList(class_: str, day: str) -> list:
     """
 
     lessonsJSON = fetchAPI()
-    # If the the lessonsJSON contains the class we want to get 
+    # If the the lessonsJSON contains the class we want to get
     # and the day we want to get
     if class_ in lessonsJSON:
         if day in lessonsJSON[class_]:
             lessons = lessonsJSON[class_][day]
-            
+        else:
+            return None, "Unknown day"
+    else:
+        return None, "Unknown class"
+
     subjects = []
     for lesson in lessons:
-        subjects.extend(lesson["subject"])
-        
+        subjects.append(lesson["subject"])
 
+    return subjects
 
 
 if __name__ == "__main__":
