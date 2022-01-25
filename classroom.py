@@ -2,7 +2,7 @@ import json
 from googleapiclient.errors import HttpError
 
 import time
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 
 import os
 
@@ -145,5 +145,5 @@ def timestampFromDue(assignment):
         "min": assignment["dueTime"]["minutes"] if 'dueTime' in assignment else 59,
     }
     dueDatetime = '<t:{}:f>'.format(int(time.mktime(datetime(
-        due["y"], due["m"], due["d"], due["h"], due["min"], 0, 0, timezone.utc).timetuple())))
+        due["y"], due["m"], due["d"], due["h"], due["min"], 0, 0).timetuple()))+28800)
     return dueDatetime
