@@ -1,4 +1,6 @@
+from datetime import datetime
 from msilib.schema import Error
+import string
 import urllib.request
 import json
 import ssl
@@ -51,6 +53,23 @@ def getLessonList(class_: str, day: str) -> list:
         subjects.append(lesson["subject"])
 
     return subjects
+
+
+def getDayOfCycle() -> str:
+    """Get Day of Cycle of today
+
+    Returns:
+        str: Day of cycle (A-H)
+    """
+    now = datetime.now()
+    date = now.strftime('%a %b %d %Y')
+
+    ssl._create_default_https_context = ssl._create_unverified_context
+    with urllib.request.urlopen("https://iot.spyc.hk/cyclecal") as url:
+        results = url.read().decode()
+        data = json.loads(results)
+        dayOfCycle = data[date]
+        return dayOfCycle
 
 
 if __name__ == "__main__":
