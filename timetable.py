@@ -44,9 +44,9 @@ def getLessonList(class_: str, day: str) -> list:
         if day in lessonsJSON[class_]:
             lessons = lessonsJSON[class_][day]
         else:
-            return None, "Unknown day"
+            return None, "不存在此 Day"
     else:
-        return None, "Unknown class"
+        return None, "找不到此班別"
 
     subjects = []
     for lesson in lessons:
