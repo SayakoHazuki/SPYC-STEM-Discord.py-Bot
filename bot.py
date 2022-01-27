@@ -55,7 +55,6 @@ async def on_ready():
 
 @bot.command()  # Assignments command
 async def assignments(ctx):
-    return
     assignmentsEmbed = discord.Embed(
         title="未繳交的作業", description="\t", color=0xF7DFA5)  # Creates the Message Embed
 
