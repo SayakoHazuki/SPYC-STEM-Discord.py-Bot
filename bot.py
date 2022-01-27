@@ -95,7 +95,7 @@ async def timetable(ctx, arg1='', arg2=''):  # Timetable Command
         # If the day received doesn't match the regex, warn the user
         return await ctx.send('不存在 Day {}'.format(arg1))
 
-    arg1 = arg1 or getDayOfCycle()
+    arg1 = getDayOfCycle() if arg1 == 'today' else arg1 or getDayOfCycle() 
     arg2 = arg2 or config["class"]
 
     if not arg1:  # Most likely won't happen
