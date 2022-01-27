@@ -33,6 +33,13 @@ The bot will reply with the timetable list.
 {"token":"yourTokenHere"}
 ```
 
+### Python dependencies
+**Python 3** (recommended: latest stable version)  
+google-api-python-client  
+google-auth-httplib2  
+google-auth-oauthlib
+
+
 ### To get google api credentials:
 1. Visit [Google Cloud Platform](https://console.cloud.google.com/) and sign in using **your personal account (not your school account)**
     - Only education accounts aged 18 or above / perseonal accounts aged 13 or above can access to this service

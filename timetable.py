@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 import urllib.request
 import json
 import ssl
@@ -53,14 +53,16 @@ def getLessonList(class_: str, day: str) -> list:
     return subjects
 
 
-def getDayOfCycle() -> str:
+def getDayOfCycle(tomorrow: bool) -> str:
     """Get Day of Cycle of today
 
     Returns:
         str: Day of cycle (A-H)
     """
-    now = datetime.now()
-    date = now.strftime('%a %b %d %Y')
+    now = datetime.now() 
+    queryDatetime = now + timedelta(days=1) if tomorrow else now
+    
+    date = queryDatetime.strftime('%a %b %d %Y')
 
     ssl._create_default_https_context = ssl._create_unverified_context
     with urllib.request.urlopen("https://iot.spyc.hk/cyclecal") as url:
