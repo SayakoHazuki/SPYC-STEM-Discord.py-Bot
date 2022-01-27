@@ -1,6 +1,4 @@
 from datetime import datetime
-from msilib.schema import Error
-import string
 import urllib.request
 import json
 import ssl
