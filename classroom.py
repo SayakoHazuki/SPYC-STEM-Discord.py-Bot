@@ -2,7 +2,7 @@ import json
 from googleapiclient.errors import HttpError
 
 import time
-from datetime import datetime, timedelta, timezone
+from datetime import datetime
 
 import os
 
@@ -137,12 +137,17 @@ def sortByDue(list):
 
 
 def timestampFromDue(assignment):
+    if('dueTime' in assignment):
+        if not 'hours' in assignment['dueTime']:
+            assignment['dueTime']['hours'] = 00
+        if not 'minutes' in assignment['dueTime']:
+            assignment['dueTime']['minutes'] = 00
     due = {
         "y": assignment["dueDate"]["year"],
         "m": assignment["dueDate"]["month"],
         "d": assignment["dueDate"]["day"],
-        "h": assignment["dueTime"]["hours"] if 'dueTime' in assignment and 'hours' in assignment["dueTime"] else 23,
-        "min": assignment["dueTime"]["minutes"] if 'dueTime' in assignment and 'minutes' in assignment["dueTime"] else 59,
+        "h": assignment["dueTime"]["hours"] if 'dueTime' in assignment else 23,
+        "min": assignment["dueTime"]["minutes"] if 'dueTime' in assignment else 59,
     }
     dueDatetime = '<t:{}:f>'.format(int(time.mktime(datetime(
         due["y"], due["m"], due["d"], due["h"], due["min"], 0, 0).timetuple()))+28800)
