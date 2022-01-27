@@ -29,9 +29,11 @@ logger.addHandler(handler)
 
 # ============ Bot Config ============
 
+activity = discord.Activity(
+    type=discord.ActivityType.listening, name="$timetable today <class>")
 intents = discord.Intents().all()  # Specify the bot intents
 bot = commands.Bot(command_prefix='$',
-                   intents=intents)  # Create the bot client
+                   intents=intents, activity=activity)  # Create the bot client
 service = None  # Will be used to store Google Classroom API Service
 
 
@@ -141,7 +143,7 @@ async def timetable(ctx, arg1='', arg2=''):  # Timetable Command
     for field in embedFields:
         timetableEmbed.add_field(**field)
 
-    await reply.edit(content='\u2800',embed=timetableEmbed)
+    await reply.edit(content='\u2800', embed=timetableEmbed)
 
 # ========= Run(start) the bot =========
 
