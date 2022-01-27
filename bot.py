@@ -91,28 +91,34 @@ async def assignments(ctx):
 
 @bot.command()
 async def timetable(ctx, arg1='', arg2=''):  # Timetable Command
-    if arg1 and not re.match(r'[A-H]|today|tomorrow|tmr', arg1):
-        # If the day received doesn't match the regex, warn the user
-        return await ctx.send('不存在 Day {}'.format(arg1))
+    day = ''
+    match True:
+        case re.match(r'[A-H]', arg1):
+            day = arg1
+        case re.match(r'today|now', arg1):
+            day = getDayOfCycle(False)
+        case re.match(r'tomorrow|tmr', arg1):
+            day = getDayOfCycle(True)
+        case _:
+            return await ctx.send('不存在 Day {}'.format(arg1))
 
-    arg1 = getDayOfCycle(True) if re.match(r'tomorrow|tmr', arg1) else arg1 or getDayOfCycle(False) 
     arg2 = arg2 or config["class"]
 
-    if not arg1:  # Most likely won't happen
+    if not day:  # Most likely won't happen
         return await ctx.send('發生了預期外的錯誤')
 
-    if arg1 == '/':  # Tells the user if it's school holiday
+    if day == '/':  # Tells the user if it's school holiday
         return await ctx.send('本日為學校假期')
 
-    param = {'day': arg1, 'class_': arg2,
+    param = {'day': day, 'class_': arg2,
              'date': datetime.now().strftime('%d %B, %Y')}
     # Get the lesson list
     lessons = getLessonList(param['class_'], param['day'])
 
-    if lessons[0] == None: # If lessons[0] is type Non, warn the user
+    if lessons[0] == None:  # If lessons[0] is type Non, warn the user
         return await ctx.send('錯誤 : {}'.format(lessons[1]))
 
-    embedFields = [] 
+    embedFields = []
     i = 0
 
     for lesson in lessons:

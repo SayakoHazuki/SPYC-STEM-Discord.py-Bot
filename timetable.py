@@ -69,6 +69,7 @@ def getDayOfCycle(tomorrow: bool) -> str:
         results = url.read().decode()
         data = json.loads(results)
         dayOfCycle = data[date]
+        print(dayOfCycle)
         return dayOfCycle
 
 
