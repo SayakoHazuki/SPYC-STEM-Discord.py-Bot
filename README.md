@@ -6,21 +6,23 @@
 - [x] bot command to send the assignment list
 - [x] improvements on the speed of the assignments command
 - [x] function to retrieve timetable data
-- [ ] bot command to get the timetable
-- [ ] ...
+- [x] bot command to get the timetable
+
+Currently working on: __Improvements__
 
 ## Commands:
-( Bot prefix: `$` )
+### $timetable [Day] [Class]
+- Get timetable  
+##### Parameters:
+- Day: [Optional] Day of cycle (e.g. A)  
+    - default: Day of cycle of today
+- Class: [Optional] Your class (e.g. 1A)  
+    - default: class in `config.json`
 
-`timetable <Class> <Day>`
-(param) Class: Your class (e.g. 1A)
-(param) Day: Day of cycle (e.g. A)
 The bot will reply with the timetable list.
 
-`assignments`
-
-Get assignment lists
-*Takes around 1 minute to run*
+### $assignments
+- Get assignment list
 
 ## Set-up
 - requires: Google API OAuth2 Token (stored as `./credentials.json`)
