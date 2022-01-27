@@ -91,7 +91,7 @@ async def assignments(ctx):
 
 @bot.command()
 async def timetable(ctx, arg1='', arg2=''):  # Timetable Command
-    if arg1 and not re.match(r'[A-H]', arg1):
+    if arg1 and not re.match(r'[A-H]|today', arg1):
         # If the day received doesn't match the regex, warn the user
         return await ctx.send('不存在 Day {}'.format(arg1))
 
