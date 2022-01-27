@@ -93,12 +93,14 @@ async def assignments(ctx):
 @bot.command()
 async def timetable(ctx, arg1='', arg2=''):  # Timetable Command
     reply = await ctx.send('獲取時間表資料中...')
+    tomorrow = False
     day = ''
     if re.match(r'[A-H]', arg1):
         day = arg1
     if re.match(r'today|now', arg1) or not arg1:
         day = getDayOfCycle(False)
     if re.match(r'tomorrow|tmr', arg1):
+        tomorrow = True
         day = getDayOfCycle(True)
 
     if not day:
@@ -110,7 +112,7 @@ async def timetable(ctx, arg1='', arg2=''):  # Timetable Command
         return await ctx.send('發生了預期外的錯誤')
 
     if day == '/':  # Tells the user if it's school holiday
-        return await ctx.send('本日為學校假期')
+        return await ctx.send('{}為學校假期').format('明日' if tomorrow else '本日')
 
     param = {'day': day, 'class_': arg2,
              'date': datetime.now().strftime('%d %B, %Y')}
