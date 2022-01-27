@@ -91,16 +91,17 @@ async def assignments(ctx):
 
 @bot.command()
 async def timetable(ctx, arg1='', arg2=''):  # Timetable Command
+    ctx.add_reaction('<a:load:801372411223343114>')
     day = ''
-    match True:
-        case re.match(r'[A-H]', arg1):
-            day = arg1
-        case re.match(r'today|now', arg1):
-            day = getDayOfCycle(False)
-        case re.match(r'tomorrow|tmr', arg1):
-            day = getDayOfCycle(True)
-        case _:
-            return await ctx.send('不存在 Day {}'.format(arg1))
+    if re.match(r'[A-H]', arg1):
+        day = arg1
+    if re.match(r'today|now', arg1):
+        day = getDayOfCycle(False)
+    if re.match(r'tomorrow|tmr', arg1):
+        day = getDayOfCycle(True)
+
+    if not day:
+        return await ctx.send('不存在 Day {}'.format(arg1))
 
     arg2 = arg2 or config["class"]
 
