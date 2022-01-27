@@ -141,8 +141,8 @@ def timestampFromDue(assignment):
         "y": assignment["dueDate"]["year"],
         "m": assignment["dueDate"]["month"],
         "d": assignment["dueDate"]["day"],
-        "h": assignment["dueTime"]["hours"] if 'dueTime' in assignment else 23,
-        "min": assignment["dueTime"]["minutes"] if 'dueTime' in assignment else 59,
+        "h": assignment["dueTime"]["hours"] if 'dueTime' in assignment and 'hours' in assignment["dueTime"] else 23,
+        "min": assignment["dueTime"]["minutes"] if 'dueTime' in assignment and 'minutes' in assignment["dueTime"] else 59,
     }
     dueDatetime = '<t:{}:f>'.format(int(time.mktime(datetime(
         due["y"], due["m"], due["d"], due["h"], due["min"], 0, 0).timetuple()))+28800)
