@@ -92,7 +92,7 @@ async def assignments(ctx):
 
 @bot.command()
 async def timetable(ctx, arg1='', arg2=''):  # Timetable Command
-    reply = await ctx.send('載入時間表資料中...')
+    reply = await ctx.send('獲取時間表資料中...')
     day = ''
     if re.match(r'[A-H]', arg1):
         day = arg1
@@ -116,6 +116,7 @@ async def timetable(ctx, arg1='', arg2=''):  # Timetable Command
              'date': datetime.now().strftime('%d %B, %Y')}
     # Get the lesson list
     lessons = getLessonList(param['class_'], param['day'])
+    await reply.edit(content='載入中...')
 
     if lessons[0] == None:  # If lessons[0] is type Non, warn the user
         return await ctx.send('錯誤 : {}'.format(lessons[1]))
@@ -138,7 +139,7 @@ async def timetable(ctx, arg1='', arg2=''):  # Timetable Command
     for field in embedFields:
         timetableEmbed.add_field(**field)
 
-    await reply.edit(embed=timetableEmbed)
+    await reply.edit(content='\u2800',embed=timetableEmbed)
 
 # ========= Run(start) the bot =========
 
