@@ -5,6 +5,7 @@ import logging
 import json
 import os.path
 import re
+from tkinter import FALSE
 
 import discord
 from discord.ext import commands, tasks
@@ -91,11 +92,11 @@ async def assignments(ctx):
 
 @bot.command()
 async def timetable(ctx, arg1='', arg2=''):  # Timetable Command
-    ctx.add_reaction('<a:load:801372411223343114>')
+    reply = await ctx.send('載入時間表資料中...')
     day = ''
     if re.match(r'[A-H]', arg1):
         day = arg1
-    if re.match(r'today|now', arg1):
+    if re.match(r'today|now', arg1) or not arg1:
         day = getDayOfCycle(False)
     if re.match(r'tomorrow|tmr', arg1):
         day = getDayOfCycle(True)
@@ -137,7 +138,7 @@ async def timetable(ctx, arg1='', arg2=''):  # Timetable Command
     for field in embedFields:
         timetableEmbed.add_field(**field)
 
-    await ctx.send(embed=timetableEmbed)
+    await reply.edit(embed=timetableEmbed)
 
 # ========= Run(start) the bot =========
 
