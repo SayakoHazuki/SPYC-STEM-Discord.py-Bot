@@ -13,7 +13,7 @@ Get school timetable
   *Default: Day of cycle of today*
 - Class *[Optional]*  
   - Your class (e.g. 1A)  
-    *default: class in config.json*
+    *Default: class in config.json*
 
 #### Examples
 ```
