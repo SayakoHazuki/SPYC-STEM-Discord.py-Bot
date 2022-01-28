@@ -1,20 +1,10 @@
 # Google Classroom Discord Bot
-**(Working in progress)**
-
-## Current progress:
-- [x] function to retrieve to-do assignments
-- [x] bot command to send the assignment list
-- [x] improvements on the speed of the assignments command
-- [x] function to retrieve timetable data
-- [x] bot command to get the timetable
-
-Currently working on: __Improvements__
 
 ## Commands:
 ### $timetable [Day] [Class]
 - Get timetable  
 ##### Parameters:
-- Day: [Optional] Day of cycle (e.g. A)  
+- Day: [Optional] Day of cycle (e.g. A)  / 'today' / 'tomorrow'
     - default: Day of cycle of today
 - Class: [Optional] Your class (e.g. 1A)  
     - default: class in `config.json`
@@ -38,6 +28,7 @@ The bot will reply with the timetable list.
 google-api-python-client  
 google-auth-httplib2  
 google-auth-oauthlib
+discord.py
 
 
 ### To get google api credentials:

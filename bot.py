@@ -16,17 +16,6 @@ from timetable import getDayOfCycle, getLessonList
 configFile = open('config.json')
 config = json.load(configFile)
 
-
-# For debugging only ( can be excluded )
-
-logger = logging.getLogger('discord')
-logger.setLevel(logging.DEBUG)
-handler = logging.FileHandler(
-    filename='discord.log', encoding='utf-8', mode='w')
-handler.setFormatter(logging.Formatter(
-    '%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
-logger.addHandler(handler)
-
 # ============ Bot Config ============
 
 activity = discord.Activity(
@@ -57,7 +46,6 @@ async def on_ready():
 
 @bot.command()  # Assignments command
 async def assignments(ctx):
-    return
     assignmentsEmbed = discord.Embed(
         title="未繳交的作業", description="\t", color=0xF7DFA5)  # Creates the Message Embed
 
