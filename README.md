@@ -4,7 +4,7 @@
 ### $timetable [Day] [Class]
 - Get timetable  
 ##### Parameters:
-- Day: [Optional] Day of cycle (e.g. A)  
+- Day: [Optional] Day of cycle (e.g. A)  / 'today' / 'tomorrow'
     - default: Day of cycle of today
 - Class: [Optional] Your class (e.g. 1A)  
     - default: class in `config.json`
