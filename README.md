@@ -1,14 +1,4 @@
 # Google Classroom Discord Bot
-**(Working in progress)**
-
-## Current progress:
-- [x] function to retrieve to-do assignments
-- [x] bot command to send the assignment list
-- [x] improvements on the speed of the assignments command
-- [x] function to retrieve timetable data
-- [x] bot command to get the timetable
-
-Currently working on: __Improvements__
 
 ## Commands:
 ### $timetable [Day] [Class]
