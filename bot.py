@@ -93,7 +93,7 @@ async def timetable(ctx, arg1='', arg2=''):  # Timetable Command
         return await ctx.send('發生了預期外的錯誤')
 
     if day == '/':  # Tells the user if it's school holiday
-        return await ctx.send('{}為學校假期').format('明日' if tomorrow else '本日')
+        return await ctx.send('{}為學校假期'.format('明日' if tomorrow else '本日'))
 
     param = {'day': day, 'class_': arg2,
              'date': datetime.now().strftime('%d %B, %Y')}
