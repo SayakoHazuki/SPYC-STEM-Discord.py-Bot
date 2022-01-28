@@ -28,6 +28,7 @@ The bot will reply with the timetable list.
 google-api-python-client  
 google-auth-httplib2  
 google-auth-oauthlib
+discord.py
 
 
 ### To get google api credentials:
