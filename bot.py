@@ -1,11 +1,9 @@
 # ============= imports =============
 
 from datetime import datetime
-import logging
 import json
 import os.path
 import re
-from tkinter import FALSE
 
 import discord
 from discord.ext import commands, tasks
