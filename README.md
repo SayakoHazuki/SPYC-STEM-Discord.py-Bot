@@ -38,6 +38,8 @@ You will need the following items before setting up the bot.
 - a Google API OAuth2 Token (stored as `./credentials.json`)  
 *(You may follow the instructions below to get the token)*
 
+## Downloading the files
+You may [clone this repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) onto your device, or, if you are using repl.it, [import](https://docs.replit.com/tutorials/06-github-and-run-button#:~:text=To%20import%20it%20into%20Replit,turn%20it%20into%20a%20repl.) this repository.
 
 ## Google API OAuth2 Token:
 #### We need a Google API OAuth2 Token to authorize the bot to read our courses and assignments on Google Classroom.   Here's how to get the token:
@@ -46,26 +48,41 @@ You will need the following items before setting up the bot.
 2. **Create a new project** with the type of *web application*
 3. In the **Libraries** tab (under API & Services) search for *Google Classroom API* and enable it
 4. In the **Credentials** tab (just below the Libraries tab), press **'Create Credentials'** and choose **OAuth client ID**
-5. Set application type to **'web application'**, under the 'Authorized redirect URIs field **add** `https:/localhost:59821/`
+5. Set application type to **'web application'**. Under the 'Authorized redirect URIs field,  
+    - **add** `http://localhost:59821/` if you are using **your device** to host  
+    - **add** `https://<repl_name>.<your_replit_username>.repl.co:59821` if you are using **repl.it** to host
 6. Press Create and wait for a **pop-up** menu which says **OAuth client created**. In the menu press **DOWNLOAD JSON**
 7. Move the downloaded file to your working directory and rename it as `credentials.json`
-8. Open a new command prompt/terminal
-9. `cd` to the directory  
+8. Open a new command prompt/terminal 
+    - If you are using repl.it:
+        - Press Ctrl+Shift+P on repl.it (Windows/Linux)
+        - Press Cmd+Shift+P on repl.it (Mac)
+    - If you are not using repl.it:
+        - Press Windows+R, type `cmd` and press OK. (Windows)
+        - Open the Terminal application (Mac/Linux)
+    
+9. `cd` to the directory containing `bot.py`
 
     ```sh
-    cd C:/path/to/the/folder/containing/the/files
+    cd path/to/the/folder/containing/the/files
     ```
 10. run the python file once   
-
     ```sh
     python3 ./bot.py
     ```
-11. A browser window will pop up, sign in and authorize using the school account (pyc19xxx@school.pyc.edu.hk)
+11. A browser window / tab will pop up. Sign in and authorize using the school account (pycXXXXX@school.pyc.edu.hk)
+    #### Seeing an error that says 'redirect_uri_mismatch'?
+    Seeing this error means that the redirect uri does not match any uri you added into the 'Authorized Redirect URIs' section in step 5.
+    - What should I do if I see this error?
+        - Go to the console in repl.it / the command prompt or terminal you opened in step 10.
+        - Copy the link in the console
+        - Add the link to 'Authorized Redirect URIs' (Refer to Step 5)
 12. Once the authorization is completed, you may close the browser window. The `$assignments` command should now work.
 
 
+
 ## Dependencies
-### Skip this part if you're using repl.it to host as repl.it automatically install dependencies.  
+**Skip this part if you're using repl.it to host as repl.it automatically install dependencies.** 
 ### Python:
 **Python 3.9 or above** (recommended: latest stable version)  
 ### Python packages:
