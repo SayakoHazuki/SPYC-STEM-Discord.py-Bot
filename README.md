@@ -26,7 +26,7 @@ Get assignment list
 
 # Set-up
 ### Below is a guide for authorzing the bot to access your assignment list
-> **This is not required if you are using the version without the `$assignment` command**
+> **This is not required if you are using the version without the `$assignments` command**
 
 ## Getting started
 You will need the following items before setting up the bot.
