@@ -1,6 +1,6 @@
 # Google Classroom Discord Bot
 
-### Refer to [this guide](https://mrma.gitbook.io/discordpersonalassistant/#task-1-set-up-siu-ying) to set-up a Discord bot on repl.it 24/7
+### Refer to [this guide](https://ite-ite.gitbook.io/discord-personal-assistant/) to set-up a Discord bot on repl.it 24/7
 
 #### Note: This repository is a version that includes the `$assignments` command, which is a little bit complicated. You are recommended to learn python from websites like [W3schools](https://w3schools.com/python) first if you are not familiar with this programming language.
 
@@ -30,9 +30,9 @@ Get assignment list
 
 ## Getting started
 You will need the following items before setting up the bot.
-- a Discord application with a bot (Refer to [this guide](https://mrma.gitbook.io/discordpersonalassistant/#task-1-set-up-siu-ying))
+- a Discord application with a bot (Refer to [this guide](https://ite-ite.gitbook.io/discord-personal-assistant/))
     - **If you are hosting on repl.it**:  
-    Store the token as an [environment variable](https://docs.replit.com/programming-ide/storing-sensitive-information-environment-variables) (You may refer to the [guide]((https://mrma.gitbook.io/discordpersonalassistant/#task-1-set-up-siu-ying)))
+    Store the token as an [environment variable](https://docs.replit.com/programming-ide/storing-sensitive-information-environment-variables) (You may refer to the [guide]((https://ite-ite.gitbook.io/discord-personal-assistant/)))
     - **If you are using a private host:**  
     store the token in `./secrets.json`  
 - a Google API OAuth2 Token (stored as `./credentials.json`)  
