@@ -90,6 +90,7 @@ google-api-python-client
 google-auth-httplib2  
 google-auth-oauthlib  
 discord.py
+discord-components
 #### Installing python packages
 tl;dr
 ```sh

@@ -2,17 +2,12 @@
 
 from datetime import datetime
 import json
-import os.path
 import re
 
 import discord
 from discord.ext import commands, tasks
 
-from classroom import authAndGetService, fetchAssignments, timestampFromDue
-from timetable import getDayOfCycle, getLessonList
-
-configFile = open('config.json')
-config = json.load(configFile)
+from SpycAPI import SpycAPI as spyc
 
 # ============ Bot Config ============
 
@@ -20,117 +15,50 @@ activity = discord.Activity(
     type=discord.ActivityType.listening, name="$timetable today <class>")
 intents = discord.Intents().all()  # Specify the bot intents
 bot = commands.Bot(command_prefix='$',
-                   intents=intents, activity=activity)  # Create the bot client
+                   intents=intents, activity=activity)  # Create the bot bot
 service = None  # Will be used to store Google Classroom API Service
 
 
 # =========== Bot Events ===========
 
-@tasks.loop(minutes=10)  # Repeat every 10 minutes
-async def fetchAssignmentsTask(args):
-    await fetchAssignments(args)  # fetch Assignments
-
 
 @bot.event  # On bot ready
 async def on_ready():
     print('Logged in as {0.user}'.format(bot))
-    # Authorize Google Classroom API and get the API Service
-    service = await authAndGetService()
-    # Start fetching assignments every 10 minutes
-    fetchAssignmentsTask.start(service)
-
-
-# ========== Bot Commands ==========
-
-@bot.command()  # Assignments command
-async def assignments(ctx):
-    assignmentsEmbed = discord.Embed(
-        title="未繳交的作業", description="\t", color=0xF7DFA5)  # Creates the Message Embed
-
-    assignments = []
-    if os.path.exists('savedAssignments.json'):  # If savedAssignments.json exists
-        with open('savedAssignments.json', 'r') as savedAssignments:
-            # Read and load savedAssignments.json into assignments[]
-            assignments = json.load(savedAssignments)
-
-    # == Get Assignment List and Add Fields ==
-
-    # If savedAssignments.json does not exist (Only when starting the bot for the first time)
-    else:
-        # Tells the user to wait for about 2 minutes
-        return await ctx.send('初次獲取資料需時約2分鐘, 請稍後重新使用指令')
-
-    # If no courses were found (usually impossible)
-    if assignments == 'No courses found':
-        # Tells the user that cannot find the courses
-        return await ctx.send('找不到課程')
-
-    # Add the first 24 assignments to the embed as fields
-    #   P.S. 25 is the maximum limit of fields per Message Embed
-    for assignment in assignments[:24]:
-        dueDatetime = timestampFromDue(
-            assignment) if 'dueDate' in assignment else '無截止日期'
-
-        # Adds a field containing information of the assignment to the Message Embed
-        assignmentsEmbed.add_field(
-            name=assignment["title"], value='截止時間: {}\n[開啟作業]({})'.format(dueDatetime, assignment["alternateLink"]), inline=False)
-
-    # Sends the message containing the Message Embed
-    return await ctx.send(embed=assignmentsEmbed)
 
 
 @bot.command()
-async def timetable(ctx, arg1='', arg2=''):  # Timetable Command
-    reply = await ctx.send('獲取時間表資料中...')
-    tomorrow = False
-    day = ''
-    if re.match(r'[A-H]', arg1):
-        day = arg1
-    if re.match(r'today|now', arg1) or not arg1:
-        day = getDayOfCycle(False)
-    if re.match(r'tomorrow|tmr', arg1):
-        tomorrow = True
-        day = getDayOfCycle(True)
+async def timetable(ctx, *args):  # Timetable Command
+    """
+    Get timetable command
+    arg1: 
+    """
+    class_args = re.findall(r'[1-6][A-Ea-e]', ''.join(args))
+    date_args = re.findall(r'[0-3]?[0-9]/[0-3]?[0-9]', ''.join(args))
 
-    if not day:
-        return await ctx.send('不存在 Day {}'.format(arg1))
+    if len(class_args) == 0:
+        return await ctx.reply('請在指令中輸入班別')
 
-    arg2 = arg2 or config["class"]
+    if len(class_args) > 1:
+        return await ctx.reply(
+            f'請每次輸入一個班別\n(共輸入了{len(class_args)}個班別: {" ".join(class_args)}'
+        )
 
-    if not day:  # Most likely won't happen
-        return await ctx.send('發生了預期外的錯誤')
+    if len(date_args) == 0:
+        date_args.append(datetime.now().strftime('%d/%m'))
 
-    if day == '/':  # Tells the user if it's school holiday
-        return await ctx.send('{}是學校假期'.format('明天' if tomorrow else '今天'))
+    if len(date_args) > 1:
+        return ctx.reply(
+            f'請每次輸入一個日期\n(共輸入了{len(date_args)}組日期: {" ".join(date_args)}'
+        )
 
-    param = {'day': day, 'class_': arg2,
-             'date': datetime.now().strftime('%d %B, %Y')}
-    # Get the lesson list
-    lessons = getLessonList(param['class_'], param['day'])
-    await reply.edit(content='載入中...')
+    _datetime = datetime(datetime.now().year,
+                         int(date_args[0].split('/')[1]),
+                         int(date_args[0].split('/')[0]))
 
-    if lessons[0] == None:  # If lessons[0] is type Non, warn the user
-        return await ctx.send('錯誤 : {}'.format(lessons[1]))
+    lessons = spyc.getDateLessons(class_args[0], _datetime)
+    return await ctx.reply('\n'.join(list(map(lambda p: p.formattedString, lessons))))
 
-    embedFields = []
-    i = 0
-
-    for lesson in lessons:
-        embedFields.append({'name': '第 {} 節'.format(
-            i+1), 'value': '{}\n'.format(lesson), 'inline': False})
-        i += 1
-
-    timetableEmbed = discord.Embed(
-        title='{class_}班時間表'.format(**param),
-        description='{date} (Day {day})'.format(
-            **param),
-        color=0x03A4EC
-    )
-
-    for field in embedFields:
-        timetableEmbed.add_field(**field)
-
-    await reply.edit(content='\u2800', embed=timetableEmbed)
 
 # ========= Run(start) the bot =========
 
