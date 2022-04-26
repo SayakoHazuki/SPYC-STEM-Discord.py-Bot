@@ -13,7 +13,7 @@ from SpycAPI import HolidayException, SpycAPI as spyc
 # ============ Bot Config ============
 
 activity = discord.Activity(
-    type=discord.ActivityType.listening, name="$timetable today <class>")
+    type=discord.ActivityType.listening, name="$help")
 intents = discord.Intents().all()  # Specify the bot intents
 bot = commands.Bot(command_prefix='$', help_command=None,
                    intents=intents, activity=activity)  # Create the bot bot
@@ -35,7 +35,7 @@ async def help(ctx):
         '可以參考[呢一份筆記](https://ite-ite.gitbook.io/discord-personal-assistant/ '
         '"SPYC Stem Elite Course: Discord Personal Assistant") \n'
         '亦歡迎參考[我呢個bot嘅程式碼](https://github.com/Kai9073/SPYC-STEM-Discord.py-Bot/tree/v2 '
-        '"Kai9073/SPYC-STEM-Discord.py at v2") \n'
+        '"Kai9073/SPYC-STEM-Discord.py-Bot at v2") \n'
     )
 
     command_list = [
