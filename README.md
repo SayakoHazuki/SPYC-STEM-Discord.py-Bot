@@ -1,4 +1,4 @@
-# Google Classroom Discord Bot
+# SPYC STEM Discord Bot
 
 ### Refer to [this guide](https://ite-ite.gitbook.io/discord-personal-assistant/) to set-up a Discord bot on repl.it 24/7
 
