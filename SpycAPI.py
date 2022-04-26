@@ -67,6 +67,23 @@ class Timetable:
         return period
 
 
+class EnvData:
+    def __init__(self, envdataJSON):
+        # {"epoch": epoch,"lastUpdate": time str,
+        #  "location": str,"temperature": float,
+        #  "airPressure": float,"relativeHumidity": float,
+        #  "heatIndex": float}[]
+        try:
+            self.lastUpdate = envdataJSON["lastUpdate"]
+            self.location = envdataJSON["location"]
+            self.temperature = float(envdataJSON["temperature"])
+            self.airPressure = float(envdataJSON["airPressure"])
+            self.heatIndex = float(envdataJSON["heatIndex"])
+            self.relativeHumidity = float(envdataJSON["relativeHumidity"])
+        except KeyError:
+            raise APIError("Received invalid data form the API")
+
+
 class SpycAPI:
     def __init__():
         pass
@@ -139,3 +156,9 @@ class SpycAPI:
                     periodrefs.append(f'{day}{int(period) + 1}')
                 result.extend(SpycAPI.getLessons(_class, periodrefs))
             return result
+
+    @staticmethod
+    def getEnvDataStrings():
+        envdata = SpycAPI.fetchJSON('/spycenv')
+        envdata = list(map(lambda data: EnvData(data), envdata))
+        return envdata

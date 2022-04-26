@@ -133,6 +133,30 @@ async def apis(ctx, *args):
     return await ctx.reply(embed=apis_list_embed)
 
 
+@bot.command()
+async def env(ctx, *args):
+    envdata = spyc.getEnvDataStrings()
+
+    dataStrings = []
+    for data in envdata:
+        dataString = (
+            f'{data.lastUpdate} '
+            f':round_pushpin:{data.location}\n'
+            f'{data.temperature:.1f}°C (HI {data.heatIndex:.1f}°C) '
+            f'{data.relativeHumidity:.1f}% {data.airPressure}hPa\n'
+        )
+        dataStrings.append(dataString)
+
+    envembed = discord.Embed(title="Campus Environment Data",
+                             description='\n'.join(dataStrings),
+                             colour=0x346ddb)
+    return await ctx.reply(embed=envembed)
+
+
+@bot.command()
+async def weather(ctx, *args):
+    pass
+
 # ========= Run(start) the bot =========
 
 # load secrets (json)
