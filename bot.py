@@ -15,7 +15,7 @@ from SpycAPI import HolidayException, SpycAPI as spyc
 activity = discord.Activity(
     type=discord.ActivityType.listening, name="$timetable today <class>")
 intents = discord.Intents().all()  # Specify the bot intents
-bot = commands.Bot(command_prefix='$',
+bot = commands.Bot(command_prefix='$', help_command=None,
                    intents=intents, activity=activity)  # Create the bot bot
 
 
@@ -25,6 +25,50 @@ bot = commands.Bot(command_prefix='$',
 @bot.event  # On bot ready
 async def on_ready():
     print('Logged in as {0.user}'.format(bot))
+
+
+@bot.command()
+async def help(ctx):
+    help_description = (
+        ':wave: Hello! 我係一個用 Python 寫嘅 Discord bot! \n'
+        '如果想試下整一個屬於自己嘅 Discord Bot, \n'
+        '可以參考[呢一份筆記](https://ite-ite.gitbook.io/discord-personal-assistant/ '
+        '"SPYC Stem Elite Course: Discord Personal Assistant") \n'
+        '亦歡迎參考[我呢個bot嘅程式碼](https://github.com/Kai9073/SPYC-STEM-Discord.py-Bot/tree/v2 '
+        '"Kai9073/SPYC-STEM-Discord.py at v2") \n'
+    )
+
+    command_list = [
+        {
+            "syntax": "$timetable `Class` `Optional: Date(DD/MM)`",
+            "desc": "查看時間表"
+        },
+        {
+            "syntax": "$apis",
+            "desc": "查看學校的 API 列表"
+        },
+        {
+            "syntax": "$env",
+            "desc": "查看透過使用 M5Stack 所記錄，校園內的溫度、濕度、氣壓等資訊"
+        },
+        {
+            "syntax": "$help",
+            "desc": "(此指令) 查看指令列表等"
+        }
+    ]
+    commands_field_desc = ''
+
+    for cmd in command_list:
+        commands_field_desc += '**{syntax}**\n> {desc}\n\n'.format(**cmd)
+
+    help_embed = discord.Embed(description=help_description,colour=0xd88317)
+    help_embed.set_author(
+        name="小英同學",
+        icon_url=("https://cdn.discordapp.com/avatars/933610860012793877/"
+                  "e7fe11793f2491a66bfdf79ba4e21fdc.png")
+    )
+    help_embed.add_field(name="指令列表", value=commands_field_desc)
+    return await ctx.reply(embed=help_embed)
 
 
 @bot.command()
