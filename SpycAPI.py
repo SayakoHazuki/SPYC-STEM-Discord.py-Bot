@@ -130,7 +130,7 @@ class SpycAPI:
         return cycleDay
 
     @staticmethod
-    def getLessons(_class: str, periodRefs: list[str]):
+    def getLessons(_class: str, periodRefs: list[str]) -> list[Period]:
         timetable = SpycAPI.getTimetable(_class)
 
         periods = []
@@ -141,7 +141,7 @@ class SpycAPI:
         return periods
 
     @staticmethod
-    def getDateLessons(_class, datetime: datetime.datetime):
+    def getDateLessons(_class: str, datetime: datetime.datetime) -> list[Period]:
         if not re.fullmatch(r'[1-6][A-Ea-e]', _class):
             raise ValueError(f'Invalid class value {_class}')
 
@@ -158,7 +158,7 @@ class SpycAPI:
             return result
 
     @staticmethod
-    def getEnvDataStrings():
+    def getEnvDataStrings() -> list[EnvData]:
         envdata = SpycAPI.fetchJSON('/spycenv')
         envdata = list(map(lambda data: EnvData(data), envdata))
         return envdata
